@@ -35,13 +35,14 @@
                 </select>
             </div>
         </form>
-        <div id="templateMessage">
-            <h3 id="message"></h3>
+        <div class="row">
+            <div id="templateMessage">
+                <h3 id="message"></h3>
+            </div>
+            <div id="target">Loading...</div>
+            <script id="template" type="x-tmpl-mustache"></script>
         </div>
-        <div id="target">Loading...</div>
-        <script id="template" type="x-tmpl-mustache">
-            <h1>Hello {{ name }}!</h1>
-                </script>
+        <button class="btn btn-primary" id="tmpltBtn">Submit</button>
     </div>
 
 

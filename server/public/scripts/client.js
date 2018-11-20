@@ -5,7 +5,7 @@ $(document).ready(function () {
         "messages": [{
             "id": 1,
             "name": "Welcome",
-            "template": "Good {{firstName}}, and welcome to {{company}}! Room {{reservation.roomNumber}} is now ready for you. Enjoy your stay and let us know if you need anything."
+            "template": "Good {{name}}, and welcome to {{company}}! Room {{reservation.roomNumber}} is now ready for you. Enjoy your stay and let us know if you need anything."
         },
         {
             "id": 2,
@@ -72,6 +72,7 @@ $(document).ready(function () {
         let getTemplates = templates.messages;
 
         for (let i = 0; i < getTemplates.length; i++) {
+            let id = getTemplates[i].id;
             let messages = getTemplates[i].name;
 
             $('#templatesList').append(
@@ -83,7 +84,6 @@ $(document).ready(function () {
         }
     };
 
-
     function showMessage(optionText) {
         console.log(optionText);
 
@@ -93,7 +93,7 @@ $(document).ready(function () {
             console.log(templateMessages.messages);
             let x = templateMessages.messages;
             let welcomeTmplt = x[0].template;
-            document.getElementById('message').innerHTML = welcomeTmplt;
+            document.getElementById('template').innerHTML = welcomeTmplt;
 
         }
         else {
@@ -101,16 +101,50 @@ $(document).ready(function () {
         }
     }
 
-    $('#guestList').on('change', function loadUser() {
+    $('#tmpltBtn').on('click', function loadTemplate() {
 
-        guest = $("#guestList option:selected").text();
-        console.log(guest);
+        $.getJSON("./json/guests.json", function (guests) {
+            console.log(guests);
 
-        var template = $('#template').html();
-        Mustache.parse(template);   // optional, speeds up future uses
-        var rendered = Mustache.render(template, { name: guest });
-        $('#target').html(rendered);
+            let x = guests.guests;
+            console.log(x);
+
+            for (let i = 0; i < x.length; i++) {
+                first = x[i].firstName;
+                console.log(first);
+            }
+
+            guest = $("#guestList option:selected").text();
+            hotel = $("#hotelList option:selected").text();
+            // console.log(guest);
+            // console.log(hotel);
+
+            var template = $('#template').html();
+            // Mustache.parse(template);   // optional, speeds up future uses
+            var rendered = Mustache.render(template, { name: guest });
+
+            $('#target').html(rendered);
+        });
     });
+
+
+    // start = guestResponse.reservation;
+    // tod = start.startTimestamp;
+
+    // let convert = tod * 1000;
+    // let time = new Date(convert).toLocaleTimeString('en-US', { hour12: false });
+    // var hours = Number(time.match(/^(\d+)/)[1]);
+
+    // let visitTime = '';
+
+    // if (hours < 12) {
+    //     visitTime = 'Morning'
+    // } else if (hours >= 12 && hours <= 17) {
+    //     visitTime = 'Afternoon'
+    // } else {
+    //     visitTime = 'Evening'
+    // }
+    // self.visit = visitTime;
 
 
 });
