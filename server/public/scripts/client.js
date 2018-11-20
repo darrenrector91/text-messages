@@ -5,7 +5,7 @@ $(document).ready(function () {
         "messages": [{
             "id": 1,
             "name": "Welcome",
-            "template": "Good {{name}}, and welcome to {{company}}! Room {{reservation.roomNumber}} is now ready for you. Enjoy your stay and let us know if you need anything."
+            "template": "Good {{name}}, and welcome to {{hotel}}! Room {{reservation.roomNumber}} is now ready for you. Enjoy your stay and let us know if you need anything."
         },
         {
             "id": 2,
@@ -87,7 +87,6 @@ $(document).ready(function () {
     function showMessage(optionText) {
         console.log(optionText);
 
-        let guest = 'bob'
         if (optionText == 'Welcome') {
 
             console.log(templateMessages.messages);
@@ -106,46 +105,16 @@ $(document).ready(function () {
         $.getJSON("./json/guests.json", function (guests) {
             console.log(guests);
 
-            let x = guests.guests;
-            console.log(x);
 
-            for (let i = 0; i < x.length; i++) {
-                first = x[i].firstName;
-                console.log(first);
-            }
 
             guest = $("#guestList option:selected").text();
             hotel = $("#hotelList option:selected").text();
-            // console.log(guest);
-            // console.log(hotel);
 
             var template = $('#template').html();
-            // Mustache.parse(template);   // optional, speeds up future uses
-            var rendered = Mustache.render(template, { name: guest });
+            Mustache.parse(template);   // optional, speeds up future uses
+            var rendered = Mustache.render(template, { name: guest, hotel: hotel });
 
             $('#target').html(rendered);
         });
     });
-
-
-    // start = guestResponse.reservation;
-    // tod = start.startTimestamp;
-
-    // let convert = tod * 1000;
-    // let time = new Date(convert).toLocaleTimeString('en-US', { hour12: false });
-    // var hours = Number(time.match(/^(\d+)/)[1]);
-
-    // let visitTime = '';
-
-    // if (hours < 12) {
-    //     visitTime = 'Morning'
-    // } else if (hours >= 12 && hours <= 17) {
-    //     visitTime = 'Afternoon'
-    // } else {
-    //     visitTime = 'Evening'
-    // }
-    // self.visit = visitTime;
-
-
 });
-
