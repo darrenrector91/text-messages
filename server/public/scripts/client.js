@@ -5,7 +5,7 @@ $(document).ready(function () {
         "messages": [{
             "id": 1,
             "name": "Welcome",
-            "template": "Good {{name}}, and welcome to {{company}}! Room {{reservation.roomNumber}} is now ready for you. Enjoy your stay and let us know if you need anything."
+            "template": "Good {{name}}, and welcome to {{hotel}}! Room {{reservation.roomNumber}} is now ready for you. Enjoy your stay and let us know if you need anything."
         },
         {
             "id": 2,
@@ -36,6 +36,9 @@ $(document).ready(function () {
         for (let i = 0; i < getGuests.length; i++) {
             let firstName = getGuests[i].firstName;
             let lastName = getGuests[i].lastName;
+            // let roomNum = getGuests[i].reservation.roomNumber;
+            // console.log(roomNum);
+
 
             $('#guestList').append(
                 $('<option>' + firstName + " " + lastName + '</option>')
@@ -62,7 +65,7 @@ $(document).ready(function () {
     function getTemplatesJSON() {
         $.getJSON("./json/templates.json", function (templatesJSON) {
             getTemplates(templatesJSON)
-            console.log(templatesJSON);
+            // console.log(templatesJSON);
 
         });
 
@@ -87,7 +90,6 @@ $(document).ready(function () {
     function showMessage(optionText) {
         console.log(optionText);
 
-        let guest = 'bob'
         if (optionText == 'Welcome') {
 
             console.log(templateMessages.messages);
@@ -103,30 +105,17 @@ $(document).ready(function () {
 
     $('#tmpltBtn').on('click', function loadTemplate() {
 
-        $.getJSON("./json/guests.json", function (guests) {
-            console.log(guests);
+        guest = $("#guestList option:selected").text();
+        hotel = $("#hotelList option:selected").text();
 
-            let x = guests.guests;
-            console.log(x);
+        var template = $('#template').html();
+        Mustache.parse(template);   // optional, speeds up future uses
+        var rendered = Mustache.render(template, { name: guest, hotel: hotel });
 
-            for (let i = 0; i < x.length; i++) {
-                first = x[i].firstName;
-                console.log(first);
-            }
-
-            guest = $("#guestList option:selected").text();
-            hotel = $("#hotelList option:selected").text();
-            // console.log(guest);
-            // console.log(hotel);
-
-            var template = $('#template').html();
-            // Mustache.parse(template);   // optional, speeds up future uses
-            var rendered = Mustache.render(template, { name: guest });
-
-            $('#target').html(rendered);
-        });
+        $('#target').html(rendered);
     });
 
+    // TODO: find a way to get selected user's room number and start time
 
     // start = guestResponse.reservation;
     // tod = start.startTimestamp;
@@ -145,7 +134,4 @@ $(document).ready(function () {
     //     visitTime = 'Evening'
     // }
     // self.visit = visitTime;
-
-
 });
-
