@@ -1,4 +1,9 @@
-body,
-html {
-    background-color: lightgray;
+form {
+    width: 400px;
+    margin-top: 50px;
+}
+
+#selectTemplateBtn {
+    margin-top: 10px;
+    margin-bottom: 50px;
 }
