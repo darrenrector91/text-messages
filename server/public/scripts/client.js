@@ -5,7 +5,7 @@ $(document).ready(function () {
         "messages": [{
             "id": 1,
             "name": "Welcome",
-            "template": "Good {{name}}, and welcome to {{hotel}}! Room {{reservation.roomNumber}} is now ready for you. Enjoy your stay and let us know if you need anything."
+            "template": "Good {{time_of_day}} {{name}}, and welcome to {{hotel}}! Room {{room}} is now ready for you. Enjoy your stay and let us know if you need anything."
         },
         {
             "id": 2,
@@ -36,9 +36,6 @@ $(document).ready(function () {
         for (let i = 0; i < getGuests.length; i++) {
             let firstName = getGuests[i].firstName;
             let lastName = getGuests[i].lastName;
-            // let roomNum = getGuests[i].reservation.roomNumber;
-            // console.log(roomNum);
-
 
             $('#guestList').append(
                 $('<option>' + firstName + " " + lastName + '</option>')
@@ -62,41 +59,49 @@ $(document).ready(function () {
         }
     }
 
+    $.getJSON("./json/guests.json", function (rooms) {
+        getRooms(rooms)
+    });
+
+    function getRooms(rooms) {
+        let guestRoom = rooms.guests;
+
+        for (let i = 0; i < guestRoom.length; i++) {
+
+            let res = guestRoom[i].reservation;
+            let roomNum = res.roomNumber;
+
+            $('#roomList').append(
+                $('<option>' + roomNum + '</option>')
+            );
+        }
+    }
+
     function getTemplatesJSON() {
         $.getJSON("./json/templates.json", function (templatesJSON) {
             getTemplates(templatesJSON)
-            // console.log(templatesJSON);
-
         });
-
     }
 
     function getTemplates(templates) {
         let getTemplates = templates.messages;
 
         for (let i = 0; i < getTemplates.length; i++) {
-            let id = getTemplates[i].id;
             let messages = getTemplates[i].name;
 
             $('#templatesList').append(
                 $('<option>' + messages + '</option>'),
-                // $('<button class="btn btn-primary">Submit</button>')
-
             );
-
         }
     };
 
     function showMessage(optionText) {
-        console.log(optionText);
 
         if (optionText == 'Welcome') {
 
-            console.log(templateMessages.messages);
             let x = templateMessages.messages;
             let welcomeTmplt = x[0].template;
             document.getElementById('template').innerHTML = welcomeTmplt;
-
         }
         else {
             document.getElementById("message").innerHTML = "Test 2"
@@ -107,10 +112,13 @@ $(document).ready(function () {
 
         guest = $("#guestList option:selected").text();
         hotel = $("#hotelList option:selected").text();
+        room = $("#roomList option:selected").text();
 
         var template = $('#template').html();
+        console.log(template);
+
         Mustache.parse(template);   // optional, speeds up future uses
-        var rendered = Mustache.render(template, { name: guest, hotel: hotel });
+        var rendered = Mustache.render(template, { name: guest, hotel: hotel, room: room });
 
         $('#target').html(rendered);
     });
