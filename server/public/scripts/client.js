@@ -5,7 +5,7 @@ $(document).ready(function () {
         "messages": [{
             "id": 1,
             "name": "Welcome",
-            "template": "Good {{name}}, and welcome to {{hotel}}! Room {{reservation.roomNumber}} is now ready for you. Enjoy your stay and let us know if you need anything."
+            "template": "Good {{name}}, and welcome to {{hotel}}! Room {{room}} is now ready for you. Enjoy your stay and let us know if you need anything."
         },
         {
             "id": 2,
@@ -16,7 +16,9 @@ $(document).ready(function () {
         ]
     }
 
-    getTemplatesJSON();
+    let guestIndexVal;
+
+    // getTemplatesJSON();
 
     $('#selectTemplateBtn').on('click', function () {
         var optionText = $("#templatesList option:selected").text();
@@ -58,11 +60,43 @@ $(document).ready(function () {
             );
         }
     }
+    // Getting guest index value in dropdown
+    $('#guestList').on('change', function findIndex() {
+        console.log('in get room number');
+        var guestSearch = $("#guestList option:selected").text();
+        console.log(guestSearch);
+
+        guestIndexVal = ($("#guestList").prop('selectedIndex'));
+        console.log(guestIndexVal);
+
+    });
+
+    $.getJSON("./json/guests.json", function (rooms) {
+        console.log(rooms);
+
+        getRooms(rooms)
+    });
+
+    function getRooms(rooms) {
+        let guestRoom = rooms.guests;
+        console.log(guestRoom);
+
+        for (let i = 0; i < guestRoom.length; i++) {
+
+            let res = guestRoom[i].reservation;
+            let roomNum = res.roomNumber;
+            console.log(roomNum);
+
+            $('#roomList').append(
+                $('<option>' + roomNum + '</option>')
+            );
+        }
+    }
 
     function getTemplatesJSON() {
         $.getJSON("./json/templates.json", function (templatesJSON) {
             getTemplates(templatesJSON)
-            console.log(templatesJSON);
+            // console.log(templatesJSON);
 
         });
 
@@ -88,12 +122,9 @@ $(document).ready(function () {
         console.log(optionText);
 
         if (optionText == 'Welcome') {
-
-            console.log(templateMessages.messages);
-            let x = templateMessages.messages;
-            let welcomeTmplt = x[0].template;
-            document.getElementById('template').innerHTML = welcomeTmplt;
-
+            $.getJSON("./json/templates.json", function (findSpecific) {
+                console.log(findSpecific.messages);
+            });
         }
         else {
             document.getElementById("message").innerHTML = "Test 2"
@@ -102,19 +133,16 @@ $(document).ready(function () {
 
     $('#tmpltBtn').on('click', function loadTemplate() {
 
-        $.getJSON("./json/guests.json", function (guests) {
-            console.log(guests);
+        guest = $("#guestList option:selected").text();
+        hotel = $("#hotelList option:selected").text();
+        room = $("#roomList option:selected").text();
 
+        var template = $('#template').html();
+        Mustache.parse(template);   // optional, speeds up future uses
+        var rendered = Mustache.render(template, { name: guest, hotel: hotel });
 
-
-            guest = $("#guestList option:selected").text();
-            hotel = $("#hotelList option:selected").text();
-
-            var template = $('#template').html();
-            Mustache.parse(template);   // optional, speeds up future uses
-            var rendered = Mustache.render(template, { name: guest, hotel: hotel });
-
-            $('#target').html(rendered);
-        });
+        $('#target').html(rendered);
     });
 });
+
+// TODO: find a way to get selected user's room number and start time

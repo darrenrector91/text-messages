@@ -21,28 +21,38 @@
                 </select>
                 <button class="btn btn-primary" type="submit" class="submitTemplateBtn" id="selectTemplateBtn">Submit</button>
             </div>
-            <div class="
-                    form-group">
+            <div class="form-group">
                 <!-- <label for="templatesList">Guests</label> -->
                 <select class="form-control" id="guestList">
-                    <option value=”” disabled selected>Guests</option>
+                    <option value=”” disabled selected>Guest</option>
                 </select>
             </div>
             <div class="form-group">
                 <!-- <label for="templatesList">Hotels</label> -->
                 <select class="form-control" id="hotelList">
-                    <option value=”” disabled selected>Hotels</option>
+                    <option value=”” disabled selected>Hotel</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <!-- <label for="templatesList">Hotels</label> -->
+                <select class="form-control" id="roomList">
+                    <option value=”” disabled selected>Room</option>
                 </select>
             </div>
         </form>
+        <div class="form-group">
+            <button class="btn btn-primary" id="tmpltBtn">Submit</button>
+        </div>
         <div class="row">
             <div id="templateMessage">
                 <h3 id="message"></h3>
             </div>
-            <div id="target">Loading...</div>
+            <div id="target">
+                <h3>Loading...</h3>
+            </div>
             <script id="template" type="x-tmpl-mustache"></script>
         </div>
-        <button class="btn btn-primary" id="tmpltBtn">Submit</button>
+
     </div>
 
 
