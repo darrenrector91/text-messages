@@ -1,0 +1,14 @@
+{
+    "messages": [{
+            "id": 1,
+            "name": "Welcome",
+            "template": "Good {{mc.visit} {{guest.firstName}}, and welcome to {{hotel.company}}! Room {{guest.reservation.roomNumber}} is now ready for you. Enjoy your stay and let us know if you need anything."
+        },
+        {
+            "id": 2,
+            "name": "Thank you",
+            "template": "{{guest.firstName}}, thank you for visiting {{hotel.company}}"
+        }
+
+    ]
+}
