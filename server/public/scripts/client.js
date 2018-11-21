@@ -5,18 +5,16 @@ $(document).ready(function () {
         "messages": [{
             "id": 1,
             "name": "Welcome",
-            "template": "Good {{time_of_day}} {{name}}, and welcome to {{hotel}}! Room {{room}} is now ready for you. Enjoy your stay and let us know if you need anything."
+            "template": "Good {{tod}} {{name}}, and welcome to {{hotel}}! Room {{room}} is now ready for you. Enjoy your stay and let us know if you need anything."
         },
         {
             "id": 2,
             "name": "Thank you",
-            "template": "{{firstName}}, thank you for visiting {{company}}"
+            "template": "{{name}}, thank you for visiting {{hotel}} and we look forward to seeing you back here next time you're in town!"
         }
 
         ]
     }
-
-    getTemplatesJSON();
 
     $('#selectTemplateBtn').on('click', function () {
         var optionText = $("#templatesList option:selected").text();
@@ -77,11 +75,9 @@ $(document).ready(function () {
         }
     }
 
-    function getTemplatesJSON() {
-        $.getJSON("./json/templates.json", function (templatesJSON) {
-            getTemplates(templatesJSON)
-        });
-    }
+    $.getJSON("./json/templates.json", function (templatesJSON) {
+        getTemplates(templatesJSON)
+    });
 
     function getTemplates(templates) {
         let getTemplates = templates.messages;
@@ -97,14 +93,15 @@ $(document).ready(function () {
 
     function showMessage(optionText) {
 
-        if (optionText == 'Welcome') {
+        let x = templateMessages.messages;
+        let welcomeTmplt = x[0].template;
+        let thankyouTmplt = x[1].template;
 
-            let x = templateMessages.messages;
-            let welcomeTmplt = x[0].template;
+        if (optionText == 'Welcome') {
             document.getElementById('template').innerHTML = welcomeTmplt;
         }
         else {
-            document.getElementById("message").innerHTML = "Test 2"
+            document.getElementById('template').innerHTML = thankyouTmplt;
         }
     }
 
@@ -113,33 +110,15 @@ $(document).ready(function () {
         guest = $("#guestList option:selected").text();
         hotel = $("#hotelList option:selected").text();
         room = $("#roomList option:selected").text();
+        tod = $("#todList option:selected").text();
+
 
         var template = $('#template').html();
-        console.log(template);
+        // console.log(template);
 
-        Mustache.parse(template);   // optional, speeds up future uses
-        var rendered = Mustache.render(template, { name: guest, hotel: hotel, room: room });
+        Mustache.parse(template);   // speeds up future uses
+        var rendered = Mustache.render(template, { name: guest, hotel: hotel, room: room, tod: tod });
 
         $('#target').html(rendered);
     });
-
-    // TODO: find a way to get selected user's room number and start time
-
-    // start = guestResponse.reservation;
-    // tod = start.startTimestamp;
-
-    // let convert = tod * 1000;
-    // let time = new Date(convert).toLocaleTimeString('en-US', { hour12: false });
-    // var hours = Number(time.match(/^(\d+)/)[1]);
-
-    // let visitTime = '';
-
-    // if (hours < 12) {
-    //     visitTime = 'Morning'
-    // } else if (hours >= 12 && hours <= 17) {
-    //     visitTime = 'Afternoon'
-    // } else {
-    //     visitTime = 'Evening'
-    // }
-    // self.visit = visitTime;
 });
