@@ -26,7 +26,7 @@ Automatically populating customizable message templates with information
 ### Installing
 
 ## Notes
-* 
+* The templates are not generated from a JSON file but instead are placed in the client.js file and referenced directly
 
 ## Base Functionality
 - [x] Have some sort of structure or object for working with template messages that have placeholders/variables (i.e. firstName, lastName, roomNumber, etc.) embedded in them
