@@ -29,13 +29,13 @@ Automatically populating customizable message templates with information
 * 
 
 ## Base Functionality
-- [*] Have some sort of structure or object for working with template messages that have placeholders/variables (i.e. firstName, lastName, roomNumber, etc.) embedded in them
-- [*] Load in message template information from a JSON file that you will have had created. Structure the file however you see fit
-- [*] Load in guest and company information from the JSON files that we have provided
-- [*] Allow the user to specify which guest and which company should be used to populate template messages.
-- [*] Allow the user to either select one of the message templates that was loaded in from the JSON file or to enter in a new message
+- [x] Have some sort of structure or object for working with template messages that have placeholders/variables (i.e. firstName, lastName, roomNumber, etc.) embedded in them
+- [x] Load in message template information from a JSON file that you will have had created. Structure the file however you see fit
+- [x] Load in guest and company information from the JSON files that we have provided
+- [x] Allow the user to specify which guest and which company should be used to populate template messages.
+- [x] Allow the user to either select one of the message templates that was loaded in from the JSON file or to enter in a new message
       template
-- [*] Generate a final message output that is a result of populating the specified variables of the message template with the correct values
+- [x] Generate a final message output that is a result of populating the specified variables of the message template with the correct values
       from the other data
 
 ## Stretch Goals
